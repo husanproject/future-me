@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutureMe AI — Future Face &amp; Life Simulator</title>
+    <meta name="description" content="Upload your photo and see your future self. AI-powered age progression and life simulation with customizable parameters.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🔮</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-noise"></div>
+    <div class="bg-gradient-orb orb-1"></div>
+    <div class="bg-gradient-orb orb-2"></div>
+    <div class="bg-gradient-orb orb-3"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="nav-logo" data-nav="hero">
+                <div class="nav-logo-icon">🔮</div>
+                <div class="nav-logo-text"><span>FutureMe</span> AI</div>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" data-nav="hero">Home</a></li>
+                <li><a href="#" data-nav="upload">Upload</a></li>
+                <li><a href="#" data-nav="history">History</a></li>
+            </ul>
+            <div style="display:flex;align-items:center;gap:12px">
+                <div class="demo-badge" id="demoBadge" style="display:none">Demo Mode</div>
+                <button class="mobile-nav-toggle" id="mobileNavToggle">☰</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- HERO SECTION                                       -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="section hero active" id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                ✨ <span>AI-Powered</span> Future Simulation
+            </div>
+            <h1>
+                See Your<br>
+                <span class="gradient-text">Future.</span>
+            </h1>
+            <p>
+                Upload your photo. Choose your future. Meet the person you could become.
+            </p>
+            <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+                <button class="btn btn-primary btn-lg" onclick="showSection('upload')">
+                    🚀 Create My Future
+                </button>
+                <button class="btn btn-secondary btn-lg" onclick="showSection('history')">
+                    📁 View History
+                </button>
+            </div>
+            <div style="margin-top:48px;display:flex;gap:40px;justify-content:center;flex-wrap:wrap">
+                <div style="text-align:center">
+                    <div style="font-size:28px;font-weight:800;font-family:'Space Grotesk',sans-serif" class="gradient-text">4</div>
+                    <div style="font-size:13px;color:var(--text-muted)">Variations</div>
+                </div>
+                <div style="text-align:center">
+                    <div style="font-size:28px;font-weight:800;font-family:'Space Grotesk',sans-serif" class="gradient-text">8+</div>
+                    <div style="font-size:13px;color:var(--text-muted)">Parameters</div>
+                </div>
+                <div style="text-align:center">
+                    <div style="font-size:28px;font-weight:800;font-family:'Space Grotesk',sans-serif" class="gradient-text">AI</div>
+                    <div style="font-size:13px;color:var(--text-muted)">Powered</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- UPLOAD SECTION                                     -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="section" id="upload" style="padding-top:120px">
+        <div class="container" style="max-width:700px">
+            <h2 class="section-title" style="text-align:center">Upload Your Photo</h2>
+            <p class="section-subtitle" style="text-align:center">Upload a clear, front-facing portrait photo for the best results.</p>
+
+            <!-- Drop Zone -->
+            <div class="upload-zone" id="dropZone">
+                <div class="upload-icon">📸</div>
+                <h3>Drop your photo here</h3>
+                <p>or click to browse files</p>
+                <div class="file-types">
+                    <span>JPG</span>
+                    <span>JPEG</span>
+                    <span>PNG</span>
+                </div>
+                <p style="margin-top:12px;font-size:12px;color:var(--text-muted)">Max file size: 10MB</p>
+            </div>
+            <input type="file" id="fileInput" accept=".jpg,.jpeg,.png" style="display:none">
+
+            <!-- Preview -->
+            <div class="upload-preview" id="uploadPreview">
+                <img id="previewImage" alt="Uploaded photo preview">
+                <div class="preview-actions">
+                    <button class="btn btn-danger btn-sm" onclick="removePhoto()">🗑️ Remove</button>
+                    <button class="btn btn-primary" onclick="proceedToParams()">Continue →</button>
+                </div>
+            </div>
+
+            <!-- Tips -->
+            <div class="glass-card" style="margin-top:32px;padding:24px">
+                <h4 style="font-size:15px;font-weight:600;margin-bottom:12px">📋 Photo Tips</h4>
+                <ul style="font-size:13px;color:var(--text-secondary);list-style:none;display:flex;flex-direction:column;gap:8px">
+                    <li>✅ Use a clear, well-lit front-facing photo</li>
+                    <li>✅ Make sure your face is clearly visible</li>
+                    <li>✅ Avoid sunglasses or heavy filters</li>
+                    <li>✅ Use a recent photo for best accuracy</li>
+                    <li>❌ Avoid group photos or side profiles</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- PARAMETERS SECTION                                 -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="section" id="params" style="padding-top:120px">
+        <div class="container">
+            <h2 class="section-title" style="text-align:center">Customize Your Future</h2>
+            <p class="section-subtitle" style="text-align:center">Configure the parameters for your future self.</p>
+
+            <div class="steps-container">
+                <!-- Step Progress -->
+                <div class="step-progress">
+                    <div class="step-dot active" onclick="goToStep(0)">1</div>
+                    <div class="step-line"></div>
+                    <div class="step-dot" onclick="goToStep(1)">2</div>
+                    <div class="step-line"></div>
+                    <div class="step-dot" onclick="goToStep(2)">3</div>
+                    <div class="step-line"></div>
+                    <div class="step-dot" onclick="goToStep(3)">4</div>
+                    <div class="step-line"></div>
+                    <div class="step-dot" onclick="goToStep(4)">5</div>
+                </div>
+
+                <!-- ── STEP 1: Age & 1-Click Presets ── -->
+                <div class="step-panel active" id="step-age">
+                    <h3>🎂 Select Age & 1-Click Presets</h3>
+                    <p class="step-desc">Choose your current and future age, or pick a quick magic style.</p>
+
+                    <div class="glass-card" style="padding:24px;margin-bottom:24px">
+                        <div class="age-selector">
+                            <div class="age-display">
+                                <div class="age-number" id="currentAgeDisplay">25</div>
+                                <div class="age-label">Current Age</div>
+                            </div>
+                            <input type="range" class="range-slider" id="currentAgeSlider" min="18" max="70" value="25">
+                            <div class="range-labels"><span>18</span><span>70</span></div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card" style="padding:24px;margin-bottom:24px">
+                        <div class="age-selector">
+                            <div class="age-display">
+                                <div class="age-number" id="futureAgeDisplay">40</div>
+                                <div class="age-label">Future Age</div>
+                            </div>
+                            <input type="range" class="range-slider" id="futureAgeSlider" min="20" max="80" value="40">
+                            <div class="range-labels"><span>20</span><span>80</span></div>
+                        </div>
+                        <div id="ageWarning" style="display:none;margin-top:12px;padding:8px 16px;border-radius:var(--radius-md);background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);font-size:13px;color:var(--accent-orange)">
+                            ⚠️ Future age must be greater than current age.
+                        </div>
+                    </div>
+
+                    <div class="glass-card" style="padding:24px">
+                        <h4 style="font-size:15px;font-weight:700;color:white;margin-bottom:12px;display:flex;align-items:center;gap:8px">
+                            <span>✨ 1-Click Magic Presets</span>
+                        </h4>
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));gap:10px">
+                            <button type="button" onclick="applyFxPreset('clown')" class="btn btn-secondary" style="background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.3);color:#fca5a5;padding:10px">
+                                <span style="font-size:20px">🤡</span>
+                                <span style="font-weight:700;font-size:12px">Masqaraboz Party</span>
+                            </button>
+                            <button type="button" onclick="applyFxPreset('cyberpunk')" class="btn btn-secondary" style="background:rgba(6,182,212,0.15);border-color:rgba(6,182,212,0.3);color:#67e8f9;padding:10px">
+                                <span style="font-size:20px">⚡</span>
+                                <span style="font-weight:700;font-size:12px">Cyberpunk</span>
+                            </button>
+                            <button type="button" onclick="applyFxPreset('king')" class="btn btn-secondary" style="background:rgba(234,179,8,0.15);border-color:rgba(234,179,8,0.3);color:#fde047;padding:10px">
+                                <span style="font-size:20px">👑</span>
+                                <span style="font-weight:700;font-size:12px">Royal King</span>
+                            </button>
+                            <button type="button" onclick="applyFxPreset('cowboy')" class="btn btn-secondary" style="background:rgba(245,158,11,0.15);border-color:rgba(245,158,11,0.3);color:#fcd34d;padding:10px">
+                                <span style="font-size:20px">🤠</span>
+                                <span style="font-weight:700;font-size:12px">Cowboy</span>
+                            </button>
+                            <button type="button" onclick="applyFxPreset('angel')" class="btn btn-secondary" style="background:rgba(168,85,247,0.15);border-color:rgba(168,85,247,0.3);color:#e9d5ff;padding:10px">
+                                <span style="font-size:20px">😇</span>
+                                <span style="font-weight:700;font-size:12px">Angel Halo</span>
+                            </button>
+                            <button type="button" onclick="applyFxPreset('devil')" class="btn btn-secondary" style="background:rgba(225,29,72,0.15);border-color:rgba(225,29,72,0.3);color:#fda4af;padding:10px">
+                                <span style="font-size:20px">😈</span>
+                                <span style="font-weight:700;font-size:12px">Devil Party</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="step-nav">
+                        <button class="btn btn-ghost" onclick="showSection('upload')">← Back to Upload</button>
+                        <button class="btn btn-primary" onclick="nextStep()">Next →</button>
+                    </div>
+                </div>
+
+                <!-- ── STEP 2: Hair & Eye Color ── -->
+                <div class="step-panel" id="step-lifestyle">
+                    <h3>💇 Soch va Ko'zlar Rangi</h3>
+                    <p class="step-desc">Sochingiz va ko'zlaringiz rangini tanlang.</p>
+
+                    <h4 style="font-size:14px;color:var(--text-secondary);margin-bottom:12px;font-weight:600">SOCH RANGI (HAIR COLOR)</h4>
+                    <div class="option-grid" style="margin-bottom:32px">
+                        <div class="option-card selected" data-param="hairColor" data-value="Original"><span class="option-icon">👤</span>Original</div>
+                        <div class="option-card" data-param="hairColor" data-value="Blonde"><span class="option-icon">👱</span>Blonde</div>
+                        <div class="option-card" data-param="hairColor" data-value="Red"><span class="option-icon">🧑‍🦰</span>Red</div>
+                        <div class="option-card" data-param="hairColor" data-value="Neon Blue"><span class="option-icon">💙</span>Neon Blue</div>
+                        <div class="option-card" data-param="hairColor" data-value="Purple"><span class="option-icon">💜</span>Purple</div>
+                        <div class="option-card" data-param="hairColor" data-value="Silver"><span class="option-icon">🩶</span>Silver</div>
+                        <div class="option-card" data-param="hairColor" data-value="Emerald Green"><span class="option-icon">💚</span>Green</div>
+                        <div class="option-card" data-param="hairColor" data-value="Hot Pink"><span class="option-icon">🩷</span>Hot Pink</div>
+                    </div>
+
+                    <h4 style="font-size:14px;color:var(--text-secondary);margin-bottom:12px;font-weight:600">KO'ZLAR RANGI (EYE COLOR)</h4>
+                    <div class="option-grid">
+                        <div class="option-card selected" data-param="eyeColor" data-value="Original"><span class="option-icon">👁️</span>Original</div>
+                        <div class="option-card" data-param="eyeColor" data-value="Sapphire Blue"><span class="option-icon">🔵</span>Sapphire Blue</div>
+                        <div class="option-card" data-param="eyeColor" data-value="Emerald Green"><span class="option-icon">🟢</span>Emerald Green</div>
+                        <div class="option-card" data-param="eyeColor" data-value="Golden Amber"><span class="option-icon">🟡</span>Golden Amber</div>
+                        <div class="option-card" data-param="eyeColor" data-value="Ruby Red"><span class="option-icon">🔴</span>Ruby Red</div>
+                        <div class="option-card" data-param="eyeColor" data-value="Cyber Neon"><span class="option-icon">🩵</span>Cyber Neon</div>
+                    </div>
+
+                    <div class="step-nav">
+                        <button class="btn btn-ghost" onclick="prevStep()">← Back</button>
+                        <button class="btn btn-primary" onclick="nextStep()">Next →</button>
+                    </div>
+                </div>
+
+                <!-- ── STEP 3: Skin Tone & Accessories (Clown Nose 🔴) ── -->
+                <div class="step-panel" id="step-appearance">
+                    <h3>✨ Teri Glow & Aksessuarlar (Clown Nose 🔴)</h3>
+                    <p class="step-desc">Teri effekti va qiziqarli elementlar qo'shing.</p>
+
+                    <h4 style="font-size:14px;color:var(--text-secondary);margin-bottom:12px;font-weight:600">TERI GLOW & RANGI (SKIN TONE)</h4>
+                    <div class="option-grid" style="margin-bottom:32px">
+                        <div class="option-card selected" data-param="skinTone" data-value="Original"><span class="option-icon">👤</span>Original</div>
+                        <div class="option-card" data-param="skinTone" data-value="Golden Sun"><span class="option-icon">☀️</span>Golden Sun</div>
+                        <div class="option-card" data-param="skinTone" data-value="Bronze Tan"><span class="option-icon">🏖️</span>Bronze Tan</div>
+                        <div class="option-card" data-param="skinTone" data-value="Porcelain Pale"><span class="option-icon">✨</span>Porcelain Pale</div>
+                        <div class="option-card" data-param="skinTone" data-value="Cyber Neon"><span class="option-icon">⚡</span>Cyber Neon</div>
+                        <div class="option-card" data-param="skinTone" data-value="Avatar Blue"><span class="option-icon">🌀</span>Avatar Blue</div>
+                    </div>
+
+                    <h4 style="font-size:14px;color:var(--text-secondary);margin-bottom:12px;font-weight:600">QIZIQARLI AKSESSUARLAR & MASQARABOZ BURNI 🔴</h4>
+                    <div class="option-grid">
+                        <div class="option-card selected" data-param="accessory" data-value="None"><span class="option-icon">❌</span>None</div>
+                        <div class="option-card" data-param="accessory" data-value="Clown Nose" style="background:rgba(239,68,68,0.2);border-color:rgba(239,68,68,0.4)">
+                            <span class="option-icon">🔴</span>Masqaraboz Burni
+                        </div>
+                        <div class="option-card" data-param="accessory" data-value="Cat Ears"><span class="option-icon">🐱</span>Cat Ears</div>
+                        <div class="option-card" data-param="accessory" data-value="Angel Halo"><span class="option-icon">😇</span>Angel Halo</div>
+                        <div class="option-card" data-param="accessory" data-value="Devil Horns"><span class="option-icon">😈</span>Devil Horns</div>
+                        <div class="option-card" data-param="accessory" data-value="Mustache"><span class="option-icon">👨</span>Mustache</div>
+                    </div>
+
+                    <div class="step-nav">
+                        <button class="btn btn-ghost" onclick="prevStep()">← Back</button>
+                        <button class="btn btn-primary" onclick="nextStep()">Next →</button>
+                    </div>
+                </div>
+
+                <!-- ── STEP 4: Hats, Glasses & Environment ── -->
+                <div class="step-panel" id="step-environment">
+                    <h3>🎩 Shlyapalar, 🕶️ Ko'zoynaklar & Fon</h3>
+                    <p class="step-desc">Shlyapalar, zamonaviy ko'zoynaklar va foningizni tanlang.</p>
+
+                    <h4 style="font-size:14px;color:var(--text-secondary);margin-bottom:12px;font-weight:600">SHLYAPALAR VA TOJLAR (HATS & CROWNS)</h4>
+                    <div class="option-grid" style="margin-bottom:24px">
+                        <div class="option-card selected" data-param="hat" data-value="None"><span class="option-icon">❌</span>None</div>
+                        <div class="option-card" data-param="hat" data-value="Cowboy Hat"><span class="option-icon">🤠</span>Cowboy Hat</div>
+                        <div class="option-card" data-param="hat" data-value="Royal Crown"><span class="option-icon">👑</span>Royal Crown</div>
+                        <div class="option-card" data-param="hat" data-value="Top Hat"><span class="option-icon">🎩</span>Top Hat</div>
+                        <div class="option-card" data-param="hat" data-value="Party Hat"><span class="option-icon">🥳</span>Party Hat</div>
+                        <div class="option-card" data-param="hat" data-value="Santa Hat"><span class="option-icon">🎅</span>Santa Hat</div>
+                    </div>
+
+                    <h4 style="font-size:14px;color:var(--text-secondary);margin-bottom:12px;font-weight:600">KO'ZOYNAKLAR (GLASSES)</h4>
+                    <div class="option-grid" style="margin-bottom:24px">
+                        <div class="option-card selected" data-param="glasses" data-value="None"><span class="option-icon">❌</span>None</div>
+                        <div class="option-card" data-param="glasses" data-value="Cool Sunglasses"><span class="option-icon">🕶️</span>Cool Sunglasses</div>
+                        <div class="option-card" data-param="glasses" data-value="Cyber Goggles"><span class="option-icon">🥽</span>Cyber Goggles</div>
+                        <div class="option-card" data-param="glasses" data-value="Nerd Glasses"><span class="option-icon">👓</span>Nerd Glasses</div>
+                    </div>
+
+                    <h4 style="font-size:14px;color:var(--text-secondary);margin-bottom:12px;font-weight:600">FON (ENVIRONMENT)</h4>
+                    <div class="option-grid">
+                        <div class="option-card" data-param="environment" data-value="Modern City"><span class="option-icon">🏙️</span>Modern City</div>
+                        <div class="option-card" data-param="environment" data-value="Office"><span class="option-icon">🏢</span>Office</div>
+                        <div class="option-card" data-param="environment" data-value="Gym"><span class="option-icon">🏋️</span>Gym</div>
+                        <div class="option-card" data-param="environment" data-value="Luxury Interior"><span class="option-icon">🏠</span>Luxury Interior</div>
+                        <div class="option-card" data-param="environment" data-value="Nature"><span class="option-icon">🌿</span>Nature</div>
+                        <div class="option-card selected" data-param="environment" data-value="Studio"><span class="option-icon">📷</span>Studio</div>
+                    </div>
+
+                    <div class="step-nav">
+                        <button class="btn btn-ghost" onclick="prevStep()">← Back</button>
+                        <button class="btn btn-primary" onclick="nextStep()">Next →</button>
+                    </div>
+                </div>
+
+                <!-- ── STEP 5: Summary ── -->
+                <div class="step-panel" id="step-summary">
+                    <h3>📋 Summary & Generate</h3>
+                    <p class="step-desc">Review your selected parameters and start generation.</p>
+
+                    <div class="summary-grid" id="summaryGrid" style="margin-bottom:32px"></div>
+
+                    <div style="text-align:center;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+                        <button class="btn btn-primary btn-lg" onclick="startGeneration()" style="flex:1;max-width:300px">
+                            🚀 Generate My Future / FX
+                        </button>
+                        <button class="btn btn-secondary btn-lg" onclick="generateAgeGrid()" style="flex:1;max-width:320px;background:linear-gradient(135deg, #8b5cf6, #6366f1);color:white">
+                            📊 6-Stage Age Grid (18–50 Yosh)
+                        </button>
+                    </div>
+
+                    <div class="step-nav">
+                        <button class="btn btn-ghost" onclick="prevStep()">← Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- RESULTS SECTION                                    -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="section" id="results" style="padding-top:120px">
+        <div class="container">
+            <h2 class="section-title" style="text-align:center">Your Future Self</h2>
+            <p class="section-subtitle" style="text-align:center">Here are your AI-generated future variations.</p>
+
+            <!-- Results Grid -->
+            <div class="results-grid" id="resultsGrid"></div>
+
+            <!-- Before/After Compare -->
+            <div id="compareSection" style="display:none;margin-top:64px">
+                <h3 class="section-title" style="text-align:center;font-size:24px;margin-bottom:32px">Before / After</h3>
+                <div class="compare-container" id="compareContainer">
+                    <img class="compare-img" id="compareOriginal" alt="Original" src="">
+                    <div class="compare-overlay" id="compareOverlay">
+                        <img id="compareFuture" alt="Future" src="">
+                    </div>
+                    <div class="compare-slider-line" id="compareSliderLine"></div>
+                    <div class="compare-slider-handle" id="compareSliderHandle">⇔</div>
+                    <span class="compare-label left">Today</span>
+                    <span class="compare-label right">Future</span>
+                </div>
+            </div>
+
+            <!-- Timeline -->
+            <div style="margin-top:64px">
+                <h3 class="section-title" style="text-align:center;font-size:24px;margin-bottom:32px">Future Timeline</h3>
+                <div class="timeline" id="timeline"></div>
+            </div>
+
+            <!-- Future Profile -->
+            <div id="futureProfile"></div>
+
+            <!-- Actions -->
+            <div style="text-align:center;margin-top:48px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+                <button class="btn btn-primary" onclick="generateAgain()">🔄 Generate Again</button>
+                <button class="btn btn-secondary" onclick="showSection('history')">📁 View History</button>
+                <button class="btn btn-secondary" onclick="showSection('hero')">🏠 Home</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- HISTORY SECTION                                    -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="section" id="history" style="padding-top:120px">
+        <div class="container">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;flex-wrap:wrap;gap:16px">
+                <div>
+                    <h2 class="section-title">History</h2>
+                    <p class="section-subtitle" style="margin-bottom:0">Your previous generations.</p>
+                </div>
+                <button class="btn btn-primary" onclick="showSection('upload')">+ New Generation</button>
+            </div>
+            <div class="history-grid" id="historyGrid">
+                <div class="history-empty">
+                    <div class="empty-icon">📁</div>
+                    <h3>No History Yet</h3>
+                    <p>Your generated results will appear here.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- LOADING OVERLAY                                    -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+        </div>
+        <div class="loading-text" id="loadingText">Initializing...</div>
+        <div class="loading-subtext" id="loadingSubtext">Preparing your generation</div>
+        <div class="loading-progress">
+            <div class="bar" id="loadingBar"></div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- FULLSCREEN MODAL                                   -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="modal-overlay" id="fullscreenModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeFullscreen()">✕</button>
+            <img id="fullscreenImage" src="" alt="Fullscreen view">
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
