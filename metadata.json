@@ -1,0 +1,6 @@
+{
+  "name": "O‘z Do‘konim — AI Smart POS",
+  "description": "O‘zbekiston bozori uchun zamonaviy supermarket boshqaruv va AI Smart POS tizimi (FastAPI, PostgreSQL, React, RBAC).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
